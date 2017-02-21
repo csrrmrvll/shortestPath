@@ -1,16 +1,20 @@
 #include <algorithm>
+#include <fstream>
 #include <iostream>
+#include <iterator>
+#include <sstream>
 #include <utility>
 #include <vector>
-#include "Heap.h"
+#include "ShortestPath.h"
 
 using namespace std;
+using Vector = vector<int>;
 
-template<typename Container>
-ostream & operator<<(ostream & out, const Container & c)
+ostream & operator<<(ostream & out, const Vector & v)
 {
-    copy(begin(c), --end(c), ostream_iterator<int>(cout,","));
-    cout << *(--end(c)) << endl;
+    const Vector::const_iterator last = --end(v);
+    copy(begin(v), last, ostream_iterator<int>(cout,","));
+    cout << *last << endl;
     return out;
 }
 
@@ -29,7 +33,6 @@ Graph read()
         string line;
         while (getline(is,line))
         {
-            using Vector = vector<int>;
             Vector v;
             istringstream iss(line);
             copy(istream_iterator<int>(iss),istream_iterator<int>(), back_insert_iterator<Vector>(v));
@@ -41,16 +44,16 @@ Graph read()
         throw runtime_error("File is not open!!");
     }
     is.close();
-    return make_pair(g, gRev);
+    return g;
 }
 
 int main()
 {
-    ShortestPath sp{g};
-    ShortestPaths sps = sp.compute(),
+    ShortestPath sp{read()};
+    ShortestPaths sps = sp.compute();
 //    const vector<int> result = { sp[7], sp[37], sp[59], sp[82], sp[99], sp[115], sp[133], sp[165], sp[188], sp[197] };
-    const vector<int> result;
-    transform(sps.begin(),sps.end(),[](auto & v) { result.emplace_back(v.second); });
+    Vector result;
+    transform(sps.begin(),sps.end(),back_inserter(result),[](auto & sp) { return sp.second; });
     cout << "Shortest paths from node 1 to nodes {7,37,59,82,99,115,133,165,188,197}: " << result << endl;
     return 0;
 }
