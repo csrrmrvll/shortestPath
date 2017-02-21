@@ -35,7 +35,7 @@ Graph read()
         {
             Vector v;
             istringstream iss(line);
-            copy(istream_iterator<int>(iss),istream_iterator<int>(), back_insert_iterator<Vector>(v));
+            copy(istream_iterator<int>(iss),istream_iterator<int>(), back_inserter(v));
             g.insert(make_pair(Vertex(v[0]), Vertex(v[1])));
         }
     }
