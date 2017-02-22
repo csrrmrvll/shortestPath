@@ -5,21 +5,24 @@
 
 using DijkstraScore = int;
 using Vertex = int;
+using Container = std::multimap<DijkstraScore,Vertex>;
+using NodeIterator = Container::const_iterator;
+using Pair = std::pair<bool,NodeIterator>;
 
 class Heap
 {
 public:
-    void push(DijkstraScore ds, Vertex v);
-    Vertex pop();
+    using value_type = Container::value_type;
+    void insert(value_type && v);
+    void insert(DijkstraScore ds, Vertex v);
+    value_type pop();
+    bool nonEmpty();
+    Pair contains(DijkstraScore ds) const;
 
 private:
-    using Container = std::multimap<DijkstraScore,Vertex>;
-
-    Vertex erase(Container::const_iterator it);
+    value_type erase(NodeIterator it);
     void erase(DijkstraScore ds);
-    bool processed(DijkstraScore ds) const;
 
-    static const DijkstraScore default_ds = 1000000;
     Container c;
 };
 

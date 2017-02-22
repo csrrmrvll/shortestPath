@@ -6,18 +6,18 @@
 #include "Heap.h"
 
 using Graph = std::map<Vertex,Vertex>;
-using ShortestPaths = std::map<Vertex,DijkstraScore>;
+using DijkstraScores = std::map<Vertex,DijkstraScore>;
 
 class ShortestPath
 {
 public:
     ShortestPath(Graph && g);
-    ShortestPaths compute();
+    DijkstraScores compute();
 
 private:
+    static const DijkstraScore default_ds = 1000000;
     Graph g;
-    Heap h;
-    ShortestPaths sp;
+    DijkstraScores ds;
 };
 
 #endif // SHORTESTPATH_H

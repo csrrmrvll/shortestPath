@@ -50,10 +50,10 @@ Graph read()
 int main()
 {
     ShortestPath sp{read()};
-    ShortestPaths sps = sp.compute();
+    DijkstraScores ds = sp.compute();
 //    const vector<int> result = { sp[7], sp[37], sp[59], sp[82], sp[99], sp[115], sp[133], sp[165], sp[188], sp[197] };
     Vector result;
-    transform(sps.begin(),sps.end(),back_inserter(result),[](auto & sp) { return sp.second; });
+    transform(ds.begin(),ds.end(),back_inserter(result),[](auto & sp) { return sp.second; });
     cout << "Shortest paths from node 1 to nodes {7,37,59,82,99,115,133,165,188,197}: " << result << endl;
     return 0;
 }
