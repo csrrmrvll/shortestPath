@@ -35,10 +35,10 @@ DijkstraScores ShortestPath::compute()
             const Vertex v = e.first;
             if (vd.count(v) == 0)
             {
-                h.erase(v);
+                const DijkstraScore dsv = ds[v];
+                h.erase(dsv,v);
                 const Distance d = e.second;
                 const DijkstraScore tv = dscurrent + d,
-                                    dsv = ds[v],
                                     ns = min(dsv,tv);
                 ds[v] = ns;
                 h.insert(ns,v);

@@ -30,9 +30,9 @@ Heap::value_type Heap::erase(NodeIterator it)
     return v;
 }
 
-void Heap::erase(Vertex v)
+void Heap::erase(DijkstraScore ds, Vertex v)
 {
-    for (auto it = begin(this->c); it != end(this->c); ++it)
+    for (auto it = this->c.lower_bound(ds); it != this->c.upper_bound(ds); ++it)
     {
         if (it->second == v)
         {
