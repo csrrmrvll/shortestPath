@@ -34,10 +34,3 @@ void Heap::erase(DijkstraScore ds)
 {
     this->c.erase(ds);
 }
-
-Pair Heap::contains(DijkstraScore ds) const
-{
-    const NodeIterator it = this->c.find(ds);
-    bool found = it != end(this->c);
-    return make_pair(found, it);
-}

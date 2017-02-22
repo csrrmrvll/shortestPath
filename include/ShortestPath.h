@@ -3,9 +3,13 @@
 
 #include <map>
 #include <utility>
+#include <vector>
 #include "Heap.h"
 
-using Graph = std::map<Vertex,Vertex>;
+using Distance = int;
+using Edge = std::pair<Vertex,Distance>;
+using Edges = std::vector<Edge>;
+using Graph = std::map<Vertex,Edges>;
 using DijkstraScores = std::map<Vertex,DijkstraScore>;
 
 class ShortestPath
@@ -15,9 +19,7 @@ public:
     DijkstraScores compute();
 
 private:
-    static const DijkstraScore default_ds = 1000000;
     Graph g;
-    DijkstraScores ds;
 };
 
 #endif // SHORTESTPATH_H

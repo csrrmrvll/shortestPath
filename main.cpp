@@ -31,12 +31,17 @@ Graph read()
     if (is.is_open())
     {
         string line;
+        Vector v(1);
+        Edges es(1);
         while (getline(is,line))
         {
-            Vector v;
             istringstream iss(line);
-            copy(istream_iterator<int>(iss),istream_iterator<int>(), back_inserter(v));
-            g.insert(make_pair(Vertex(v[0]), Vertex(v[1])));
+            for (istream_iterator<int> issit = istream_iterator<int>(iss); issit != istream_iterator<int>(); ++issit)
+            {
+                int i = *issit;
+                cout << i << endl;
+            }
+            g.insert(make_pair(v[0], es));
         }
     }
     else

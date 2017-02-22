@@ -7,7 +7,6 @@ using DijkstraScore = int;
 using Vertex = int;
 using Container = std::multimap<DijkstraScore,Vertex>;
 using NodeIterator = Container::const_iterator;
-using Pair = std::pair<bool,NodeIterator>;
 
 class Heap
 {
@@ -17,11 +16,10 @@ public:
     void insert(DijkstraScore ds, Vertex v);
     value_type pop();
     bool nonEmpty();
-    Pair contains(DijkstraScore ds) const;
+    void erase(DijkstraScore ds);
 
 private:
     value_type erase(NodeIterator it);
-    void erase(DijkstraScore ds);
 
     Container c;
 };
