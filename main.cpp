@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iterator>
 #include <sstream>
+#include <string>
 #include <utility>
 #include <vector>
 #include "ShortestPath.h"
@@ -10,11 +11,16 @@
 using namespace std;
 using Vector = vector<int>;
 
-ostream & operator<<(ostream & out, const Vector & v)
+ostream & operator<<(ostream & out, const Edge & e)
 {
-    const Vector::const_iterator last = --end(v);
-    copy(begin(v), last, ostream_iterator<int>(cout,","));
-    cout << *last << endl;
+    cout << e.first << "," << e.second;
+    return out;
+}
+
+template<typename T>
+ostream & operator<<(ostream & out, const vector<T> & v)
+{
+    for (auto t : v) out << t << ' ';
     return out;
 }
 
@@ -23,25 +29,46 @@ Graph read()
     Graph g;
     ifstream is;
 //    is.open("dijkstraData.txt",ios::in);
-    is.open("tc1.txt",ios::in);
+//    is.open("tc1.txt",ios::in);
 //    is.open("tc2.txt",ios::in);
-//    is.open("tc3.txt",ios::in);
+    is.open("tc3.txt",ios::in);
 //    is.open("tc4.txt",ios::in);
 //    is.open("tc5.txt",ios::in);
     if (is.is_open())
     {
         string line;
-        Vector v(1);
-        Edges es(1);
         while (getline(is,line))
         {
             istringstream iss(line);
-            for (istream_iterator<int> issit = istream_iterator<int>(iss); issit != istream_iterator<int>(); ++issit)
+            Vertex v;
+            Edges es;
+            for (istream_iterator<string> issit = istream_iterator<string>(iss);
+                issit != istream_iterator<string>(); ++issit)
             {
-                int i = *issit;
-                cout << i << endl;
+                const string s = *issit;
+                string::size_type it = s.find(',');
+                if (it == string::npos)
+                {
+                    istringstream i(s);
+                    i >> v;
+                }
+                else
+                {
+                    const string    s1 = s.substr(0,it),
+                                    s2 = s.substr(++it);
+                    istringstream   i1(s1),
+                                    i2(s2);
+                    Vertex w;
+                    i1 >> w;
+                    g.insert(make_pair(w,Edges()));
+                    Distance d;
+                    i2 >> d;
+                    const Edge e = make_pair(w,d);
+                    g[v].emplace_back(e);
+//                    es.emplace_back(e);
+                }
             }
-            g.insert(make_pair(v[0], es));
+//            g.insert(make_pair(v,es));
         }
     }
     else
@@ -59,6 +86,6 @@ int main()
 //    const vector<int> result = { sp[7], sp[37], sp[59], sp[82], sp[99], sp[115], sp[133], sp[165], sp[188], sp[197] };
     Vector result;
     transform(ds.begin(),ds.end(),back_inserter(result),[](auto & sp) { return sp.second; });
-    cout << "Shortest paths from node 1 to nodes {7,37,59,82,99,115,133,165,188,197}: " << result << endl;
+    cout << "Shortest paths from node 1 to nodes {7,37,59,82,99,115,133,165,188,197}: " << endl << result << endl;
     return 0;
 }

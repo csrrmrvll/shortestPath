@@ -16,7 +16,7 @@ public:
     void insert(DijkstraScore ds, Vertex v);
     value_type pop();
     bool nonEmpty();
-    void erase(DijkstraScore ds);
+    void erase(Vertex v);
 
 private:
     value_type erase(NodeIterator it);
