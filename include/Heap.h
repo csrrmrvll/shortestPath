@@ -12,7 +12,7 @@ class Heap
 {
 public:
     using value_type = Container::value_type;
-    void insert(value_type && v);
+    void insert(const value_type & v);
     void insert(DijkstraScore ds, Vertex v);
     value_type pop();
     bool nonEmpty();

@@ -1,9 +1,10 @@
+#include <algorithm>
 #include <utility>
 #include "Heap.h"
 
 using namespace std;
 
-void Heap::insert(Heap::value_type && v)
+void Heap::insert(const value_type & v)
 {
     this->c.emplace(move(v));
 }
@@ -15,7 +16,8 @@ void Heap::insert(DijkstraScore ds, Vertex v)
 
 Heap::value_type Heap::pop()
 {
-    return this->erase(begin(this->c));
+    auto it = min_element(begin(this->c),end(this->c));
+    return this->erase(it);
 }
 
 bool Heap::nonEmpty()
