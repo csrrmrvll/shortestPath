@@ -1,6 +1,8 @@
+#include <functional>
 #include <iterator>
 #include <set>
 #include <utility>
+#include "Heap.h"
 #include "ShortestPath.h"
 
 using namespace std;
@@ -10,24 +12,28 @@ ShortestPath::ShortestPath(Graph && g)
 {
 }
 
+using DsVertex = pair<DijkstraScore,Vertex>;
+auto comparator = [](const DsVertex & a, const DsVertex & b) { return a.first > b.first; };
 DijkstraScores ShortestPath::compute()
 {
     DijkstraScores ds;
-    Heap h;
+    Heap<DsVertex,decltype(comparator)> h{comparator};
     using Visited = set<Vertex>;
     Visited vd;
     const DijkstraScore infinity = 1000000;
     for (auto it : this->g)
     {
         Vertex v = it.first;
-        h.insert(v == 1 ? 0 : infinity,v);
-        ds.insert(make_pair(v,v == 1 ? 0 : infinity));
+        auto value = v == 1 ? 0 : infinity;
+        h.push(make_pair(value,v));
+        ds.insert(make_pair(v,value));
     }
-    while (h.nonEmpty())
+    while (false == h.empty())
     {
-        const Heap::value_type top = h.pop();
+        const DsVertex & top = h.pop();
         const DijkstraScore dscurrent = top.first;
         const Vertex current = top.second;
+        ds[current] = dscurrent;
         vd.insert(current);
         const Edges edges = this->g[current];
         for (auto e : edges)
@@ -36,12 +42,12 @@ DijkstraScores ShortestPath::compute()
             if (vd.count(v) == 0)
             {
                 const DijkstraScore dsv = ds[v];
-                h.erase(dsv,v);
+                h.erase(make_pair(dsv,v));
                 const Distance d = e.second;
                 const DijkstraScore tv = dscurrent + d,
                                     ns = min(dsv,tv);
                 ds[v] = ns;
-                h.insert(ns,v);
+                h.push(make_pair(ns,v));
             }
         }
     }
