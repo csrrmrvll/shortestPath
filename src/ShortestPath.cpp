@@ -12,12 +12,13 @@ ShortestPath::ShortestPath(Graph && g)
 {
 }
 
-using DsVertex = pair<DijkstraScore,Vertex>;
-auto comparator = [](const DsVertex & a, const DsVertex & b) { return a.first > b.first; };
+using DSVertex = pair<DijkstraScore,Vertex>;
+auto comparator = [](const DSVertex & a, const DSVertex & b) { return a.first > b.first; };
 DijkstraScores ShortestPath::compute()
 {
     DijkstraScores ds;
-    Heap<DsVertex,decltype(comparator)> h{comparator};
+    using MinDSHeap = Heap<DSVertex,decltype(comparator)>;
+    MinDSHeap h{comparator};
     using Visited = set<Vertex>;
     Visited vd;
     const DijkstraScore infinity = 1000000;
@@ -30,7 +31,7 @@ DijkstraScores ShortestPath::compute()
     }
     while (false == h.empty())
     {
-        const DsVertex & top = h.pop();
+        const DSVertex & top = h.pop();
         const DijkstraScore dscurrent = top.first;
         const Vertex current = top.second;
         ds[current] = dscurrent;
