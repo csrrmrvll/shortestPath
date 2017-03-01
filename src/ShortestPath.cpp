@@ -2,10 +2,11 @@
 #include <iterator>
 #include <set>
 #include <utility>
-#include "Heap.h"
+#include "heap.h"
 #include "ShortestPath.h"
 
 using namespace std;
+using namespace ads;
 
 ShortestPath::ShortestPath(Graph && g)
 :   g{g}
@@ -17,7 +18,7 @@ auto comparator = [](const DSVertex & a, const DSVertex & b) { return a.first > 
 DijkstraScores ShortestPath::compute()
 {
     DijkstraScores ds;
-    using MinDSHeap = Heap<DSVertex,decltype(comparator)>;
+    using MinDSHeap = heap<DSVertex,decltype(comparator)>;
     MinDSHeap h{comparator};
     using Visited = set<Vertex>;
     Visited vd;

@@ -24,6 +24,7 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add directory="include" />
+					<Add directory="../ads/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -34,7 +35,6 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="include/Heap.h" />
 		<Unit filename="include/ShortestPath.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/ShortestPath.cpp" />
