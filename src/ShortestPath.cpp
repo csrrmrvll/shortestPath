@@ -9,7 +9,7 @@ using namespace std;
 using namespace ads;
 
 ShortestPath::ShortestPath(Graph && g)
-:   g{g}
+:   g{std::move(g)}
 {
 }
 
@@ -19,7 +19,7 @@ DijkstraScores ShortestPath::compute()
 {
     DijkstraScores ds;
     using MinDSHeap = heap<DSVertex,decltype(comparator)>;
-    MinDSHeap h{comparator};
+    MinDSHeap h(comparator);
     using Visited = set<Vertex>;
     Visited vd;
     const DijkstraScore infinity = 1000000;
