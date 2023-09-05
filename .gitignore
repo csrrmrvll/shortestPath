@@ -2,3 +2,5 @@
 /*.layout
 /obj
 /bin
+build/
+.vscode

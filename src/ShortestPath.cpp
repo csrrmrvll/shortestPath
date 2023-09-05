@@ -18,7 +18,7 @@ auto comparator = [](const DSVertex & a, const DSVertex & b) { return a.first > 
 DijkstraScores ShortestPath::compute()
 {
     DijkstraScores ds;
-    using MinDSHeap = heap<DSVertex,decltype(comparator)>;
+    using MinDSHeap = heap<DSVertex,vector<DSVertex>,decltype(comparator)>;
     MinDSHeap h(comparator);
     using Visited = set<Vertex>;
     Visited vd;
